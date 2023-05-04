@@ -3,14 +3,20 @@
 // set screen size and starting scene
 let config = {
     type: Phaser.AUTO,
-    width: 640,
-    height: 480,
-    scene: [Loader, Menu, Play]
-  }
+    width: 800,
+    height: 600,
+    scene: [Loader, Menu, Play],
+    physics: {
+        default: 'arcade',
+        arcade: {
+            gravity : {y: 300} 
+        }
+    }
+}
 // main game
 let game = new Phaser.Game(config);
 
 // reserve keyboard variables
-let keyLEFT, keyRIGHT;
+let keyENTER, keyLEFT, keyRIGHT, keyUP, keyDown;
 
 
