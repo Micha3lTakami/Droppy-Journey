@@ -1,5 +1,4 @@
 // prefabs for obstacle
-
 class Obstacle extends Phaser.GameObjects.Sprite {
     constructor(scene, x, y, texture){
         // call the parent constructor first
