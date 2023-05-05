@@ -28,4 +28,12 @@ class Obstacle extends Phaser.Physics.Arcade.Sprite {
         }
       });
     }
+    respawn() {
+        // reset the obstacle's position to a random x coordinate
+        this.x = Phaser.Math.Between(0, this.scene.game.config.width);
+        this.y = this.scene.game.config.height;
+        
+        // re-enable the obstacle's physics body
+        this.body.enable = true;
+      }
   }
