@@ -26,6 +26,8 @@ class Loader extends Phaser.Scene {
         this.load.image('shoe', './assets/shoe.png');
         this.load.image('cloudBackg', './assets/sky.png');
 
+        this.load.spritesheet('droppyDeath', './assets/droppy-animation.png', {frameWidth: 32, frameHeight: 32, startFrame: 0, endFrame: 25});
+
         // change scene upon completion
         this.load.on('complete', function () {
             this.scene.start('menuScene');
