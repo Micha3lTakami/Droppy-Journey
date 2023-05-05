@@ -20,8 +20,8 @@ class Menu extends Phaser.Scene {
             },
             fixedWidth: 0
         }
-        
-        this.add.text(game.config.width/2, game.config.height/2, '(ENTER) to Start',menuConfig).setOrigin(0.5);
+        this.add.image(0, 0, 'title_screen').setOrigin(0, 0);
+        //this.add.text(game.config.width/2, game.config.height/2, '(ENTER) to Start',menuConfig).setOrigin(0.5);
         // define keys
         keyENTER = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
     }
