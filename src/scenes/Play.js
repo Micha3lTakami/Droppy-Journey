@@ -32,7 +32,7 @@ class Play extends Phaser.Scene {
     // update()
     // update object sprites throughout gameplay(can be thought of as constant update loop body)
     update() {
-        this.clouds.tilePositionY += 7;
+        this.clouds.tilePositionY += 8;
         if(!this.gameOver) {
             this.droppy.update()
         }
