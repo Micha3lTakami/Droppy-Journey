@@ -3,8 +3,8 @@
 // set screen size and starting scene
 let config = {
     type: Phaser.AUTO,
-    width: 800,
-    height: 600,
+    width: 480,
+    height: 640,
     scene: [Loader, Menu, Play],
     physics: {
         default: 'arcade',

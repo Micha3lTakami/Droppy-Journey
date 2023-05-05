@@ -1,22 +1,15 @@
 // play scene
-class Play2 extends Phaser.Scene {
+class Play extends Phaser.Scene {
     constructor() {
-        super("playScene2");
-        this.p1HighScore = 0; // initalize high score variable
-        this.p1HighScore = 0; // initalize high score variable
-        this.logo = null;
-        this.multp1Rocket = null;
-        this.multp2Rocket = null;
-        this.p1Rocket = null;
-        this.p2Score = 0;
+        super("playScene");
     }
 
     // create()
     // create objects on play scene
     create() {
-        /*// place tile sprite
-        this.starfield = this.add.tileSprite(0, 0, 640, 480, 'starfield').setOrigin(0, 0);
-
+        // place tile sprite
+        this.clouds = this.add.tileSprite(0, 0,480, 640, 'cloudBackg').setOrigin(0, 0);
+        /*
         // green UI background
         this.add.rectangle(0, borderUISize + borderPadding, game.config.width, borderUISize * 2, 0x00FF00).setOrigin(0, 0);
         
@@ -30,7 +23,7 @@ class Play2 extends Phaser.Scene {
 
 
         // add spaceships
-        this.alien01 = new Alienship(this, game.config.width - 65, borderUISize*3.4, 'alien', 0, 50).setOrigin(0,0);
+        this.droppy = new Droppy(this, game.config.width/2, game.config.height/2, 'Droppy').setOrigin(0.5);
 
         
         // define keys
@@ -50,10 +43,7 @@ class Play2 extends Phaser.Scene {
     update() {
 
         if(!this.gameOver) {
-            this.alien01.update();
-            this.ship01.update();
-            this.ship02.update();
-            this.ship03.update();
+            this.droppy.update()
         }
 
 

@@ -1,19 +1,22 @@
 // prefabs for obstacle
 
-create() {
-    // create a group of obstacles
-    obstacles = this.physics.add.group();
-    
-    // create individual obstacles and add them to the group
-    const obstacle1 = obstacles.create(200, 300, 'obstacle');
-    const obstacle2 = obstacles.create(600, 400, 'obstacle');
-    
-    // set the size and scale of the obstacles
-    obstacle1.setSize(100, 100);
-    obstacle2.setSize(150, 150);
-    obstacle1.setScale(0.5);
-    obstacle2.setScale(0.8);
-    
-    // make the obstacles immovable so the raindrop bounces off them
-    obstacles.setImmovable(true);
+class Obstacle extends Phaser.GameObjects.Sprite {
+    constructor(scene, x, y, texture){
+        // call the parent constructor first
+        super(scene, x, y, texture);
+
+        // set the size and scale of the obstacle
+        this.setSize(100, 100);
+        this.setScale(0.5);
+
+        // make the obstacle immovable so the raindrop bounces off it
+        this.setImmovable(true);
+
+        // add the obstacle to the scene
+        scene.add.existing(this);
+    }
+
+    update() {
+        // update logic goes here
+    }
 }

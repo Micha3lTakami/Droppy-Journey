@@ -21,7 +21,7 @@ class Menu extends Phaser.Scene {
             fixedWidth: 0
         }
         
-        fillerText = this.addText(game.config.width/2, game.config.height/2, '(ENTER) to Start',menuConfig).setOrigin(0.5);
+        this.add.text(game.config.width/2, game.config.height/2, '(ENTER) to Start',menuConfig).setOrigin(0.5);
         // define keys
         keyENTER = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
     }
