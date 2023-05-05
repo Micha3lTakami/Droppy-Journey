@@ -9,7 +9,7 @@ class Droppy extends Phaser.Physics.Arcade.Sprite {
         scene.physics.add.existing(this);
 
         // apply gravity to the sprite
-        this.body.gravity.y = 10;
+        this.body.gravity.y = 100;
 
         // set the maximum velocity of the sprite
         this.maxVelocity = 300;
