@@ -58,3 +58,4 @@ class Play2 extends Phaser.Scene {
 
 
     }
+}
