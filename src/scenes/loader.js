@@ -24,6 +24,7 @@ class Loader extends Phaser.Scene {
         this.load.image('Droppy', './assets/droppy.png');
         this.load.image('RottenFruit', './assets/rotten-apple-tomato.png')
         this.load.image('shoe', './assets/shoe.png');
+        this.load.image('cloudBackg', './assets/sky.png');
 
         // change scene upon completion
         this.load.on('complete', function () {
