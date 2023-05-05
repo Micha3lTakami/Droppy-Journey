@@ -1,4 +1,3 @@
-// prefab for droppy character
 class Droppy extends Phaser.Physics.Arcade.Sprite {
     constructor(scene, x, y, texture){
         super(scene, x, y, texture);
@@ -45,6 +44,19 @@ class Droppy extends Phaser.Physics.Arcade.Sprite {
         // normalize the velocity if the sprite is moving diagonally
         if (this.body.velocity.x != 0 && this.body.velocity.y != 0) {
             this.body.velocity.normalize().scale(this.maxVelocity);
+        }
+        
+        // wrap around from all edges
+        if (this.x > game.config.width) {
+            this.x = 0 - this.width;
+        } else if (this.x < 0 - this.width) {
+            this.x = game.config.width;
+        }
+        
+        if (this.y > game.config.height) {
+            this.y = 0 - this.height;
+        } else if (this.y < 0 - this.height) {
+            this.y = game.config.height;
         }
     }
 }

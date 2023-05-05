@@ -10,13 +10,19 @@ class Obstacle extends Phaser.GameObjects.Sprite {
         this.setScale(0.5);
 
         // make the obstacle immovable so the raindrop bounces off it
-        this.setImmovable(true);
+        //this.setImmovable(true);
 
         // add the obstacle to the scene
         scene.add.existing(this);
     }
 
     update() {
-        // update logic goes here
+        // move alien left 
+        this.y -= this.moveSpeed;
+        
+        // wrap around from left to right edge
+        if(this.y <= 50 - this.height){
+            this.reset();
+        }
     }
 }

@@ -15,7 +15,7 @@ class Play extends Phaser.Scene {
 
         // add spaceships
         this.droppy = new Droppy(this, game.config.width/2, game.config.height/2, 'Droppy').setOrigin(0.5);
-
+        this.obstacle = new Obstacle(this, game.config.width/3, game.config.height/3, 'CACA').setOrigin(0.5);
         
         // define keys
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
@@ -34,7 +34,8 @@ class Play extends Phaser.Scene {
     update() {
         this.clouds.tilePositionY += 8;
         if(!this.gameOver) {
-            this.droppy.update()
+            this.droppy.update();
+            this.obstacle.update();
         }
 
 
