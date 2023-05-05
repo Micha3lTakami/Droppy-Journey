@@ -32,7 +32,7 @@ class Menu extends Phaser.Scene {
           if (Phaser.Input.Keyboard.JustDown(keyENTER)) {
 
             game.settings = {
-  
+                obstacleSpeed: 5
             }
             this.scene.start('playScene');    
           }
