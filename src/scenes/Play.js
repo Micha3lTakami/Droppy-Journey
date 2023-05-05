@@ -10,12 +10,19 @@ class Play extends Phaser.Scene {
         // place tile sprite
         this.clouds = this.add.tileSprite(0, 0,480, 640, 'cloudBackg').setOrigin(0, 0);
 
+
+        // animation configuration
+        this.anims.create({
+            key: 'death',
+            frames: this.anims.generateFrameNumbers('droppyDeath', { start: 0, end: 25, first: 0}),
+            frameRate: 30
+        });
         
 
 
         // add spaceships
         this.droppy = new Droppy(this, game.config.width/2, game.config.height/2, 'Droppy').setOrigin(0.5);
-        this.obstacle = new Obstacle(this, game.config.width/3, game.config.height/3, 'CACA').setOrigin(0.5);
+      
         
         // define keys
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
@@ -33,11 +40,14 @@ class Play extends Phaser.Scene {
     // update object sprites throughout gameplay(can be thought of as constant update loop body)
     update() {
         this.clouds.tilePositionY += 8;
+
         if(!this.gameOver) {
             this.droppy.update();
-            this.obstacle.update();
+
+            
         }
-
-
     }
+
+  
+
 }
