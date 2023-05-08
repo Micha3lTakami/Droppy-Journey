@@ -4,74 +4,97 @@ class Play extends Phaser.Scene {
         super("playScene");
     }
 
-    // create()
-    // create objects on play scene
     create() {
         // place tile sprite
         this.clouds = this.add.tileSprite(0, 0,480, 640, 'cloudBackg').setOrigin(0, 0);
-
+    
         // add player character
         this.droppy = new Droppy(this, game.config.width/2, game.config.height/2, 'Droppy').setOrigin(0.5);
-        this.obstacle1 = new Obstacle(this, game.config.width/2, game.config.height + 1000, 'CACA').setOrigin(0.5);
-        this.obstacle1.setScale(3.0);
-        this.obstacle2 = new Obstacle(this, game.config.width/2.5, game.config.height, 'Can').setOrigin(0.5);
-        this.obstacle2.setScale(3.0);
-        this.obstacle3 = new Obstacle(this, game.config.width/2.5, game.config.height, 'RottenFruit').setOrigin(0.5);
-        this.obstacle3.setScale(3.0);
-        this.obstacle4 = new Obstacle(this, game.config.width/2.5, game.config.height, 'shoe').setOrigin(0.5);
-        this.obstacle4.setScale(3.0);
+    
         // define keys
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
         keyUP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
         keyDOWN = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
-
+    
         // Initialize timer and enemy number
         this.counter = 0;
         this.startTime = this.time.now; // Resets every 1000 milliseconds
         this.enemy = 0;
-        
-
+    
+        // create a group for the obstacles
+        this.obstacles = this.physics.add.group();
+        this.physics.world.setBounds(0, 0, game.config.width, game.config.height);
+        this.physics.add.collider(this.obstacles, this.handleObstacleWorldCollision, null, this);
+    
+        this.obstacleTimer = this.time.addEvent({
+            delay: 5000,
+            callback: this.spawnObstacle,
+            callbackScope: this,
+            loop: true,
+        });
+    
         // flag to monitor game over state
         this.gameOver = false;
-
+    
+        console.log("Play scene created boss!");
     }
     
-
+    handleObstacleWorldCollision(obstacle) {
+        obstacle.setVelocityY(obstacle.body.velocity.y * -1);
+    }
+    
+    spawnObstacle() {
+        const obstacleKeys = ['CACA', 'Can', 'Droppy', 'RottenFruit', 'shoe'];
+        const obstacleKey = Phaser.Math.RND.pick(obstacleKeys);
+        const x = Phaser.Math.Between(5, this.game.config.width-5);
+        const obstacle = new Obstacle(this, x, 640, 200, obstacleKey, this.obstacles);
+        obstacle.body.setSize(20, 20);  // test set body size to match the width and height
+        obstacle.body.setOffset(-(10), -(10)); // set the offset to center the body on the sprite
+        obstacle.body.onCollide = true;     // must be set for collision event to work
+        obstacle.body.onWorldBounds = true;
+        obstacle.setCollideWorldBounds(true);
+        this.obstacles.add(obstacle);
+        console.log("Obstacle spawned boss!");
+    }
+    
     update() {
         this.clouds.tilePositionY += 8;
         if(!this.gameOver) {
             this.droppy.update();
-            this.obstacle1.update();
-            this.obstacle2.update();
-            this.obstacle3.update();
-            this.obstacle4.update();
         }
-    
+        
+        // update obstacles
+        this.obstacles.children.iterate((obstacle) => {
+            obstacle.update();
+        });
+        
         // Delay timer for enemy spawn
         let nowTime = this.time.now
         if(nowTime > (this.startTime + 1000)) {
             this.counter += 1; // Increments by a second
             this.startTime = nowTime
-    
-            // Respawn obstacle when it goes off the top of the screen
-            if (this.obstacle1.body === null || this.obstacle1.body === undefined) {
-                this.obstacle1 = new Obstacle(this, Phaser.Math.Between(50, game.config.width - 50), game.config.height + 1000, 'CACA').setOrigin(0.5);
-                this.obstacle1.setScale(3.0);
-            }
-            if (this.obstacle2.body === null || this.obstacle2.body === undefined) {
-                this.obstacle2 = new Obstacle(this, Phaser.Math.Between(50, game.config.width - 50), game.config.height + 1000, 'Can').setOrigin(0.5);
-                this.obstacle2.setScale(3.0);
-            }
-            if (this.obstacle3.body === null || this.obstacle3.body === undefined) {
-                this.obstacle3 = new Obstacle(this, Phaser.Math.Between(50, game.config.width - 50), game.config.height + 1000, 'RottenFruit').setOrigin(0.5);
-                this.obstacle3.setScale(3.0);
-            }
-            if (this.obstacle4.body === null || this.obstacle4.body === undefined) {
-                this.obstacle4 = new Obstacle(this, Phaser.Math.Between(50, game.config.width - 50), game.config.height + 1000, 'shoe').setOrigin(0.5);
-                this.obstacle4.setScale(3.0);
-            }
         }
+        
+        console.log("Play scene updated boss!");
+    }
+    
+    
+    
+    
+
+    spawnObstacle() {
+        const obstacleKeys = ['CACA', 'Can', 'RottenFruit', 'shoe'];
+        const x = Phaser.Math.Between(2, this.game.config.width-2);
+        const obstacleKey = Phaser.Math.RND.pick(obstacleKeys);
+        const obstacle = new Obstacle(this, x, game.config.height, 400, obstacleKey, this.obstacles);
+        obstacle.body.setSize(5, 5);  // set body size to match the width and height
+        obstacle.body.setOffset(-(1), -(1)); // set the offset to center the body on the sprite
+        obstacle.body.onCollide = true;     // must be set for collision event to work
+        obstacle.body.onWorldBounds = true;
+        obstacle.setCollideWorldBounds(true);
+        this.obstacles.add(obstacle);
+        console.log("Obstacle spawned boss!");
     }
 
     // handles droppy death state
@@ -82,6 +105,8 @@ class Play extends Phaser.Scene {
             droppy.destroy();
             death.destroy();
             this.gameOver = true;
-        })
+        });
+
+        console.log("Droppy died!");
     }
-}
+} 
