@@ -49,8 +49,10 @@ class Play extends Phaser.Scene {
         const obstacleKey = Phaser.Math.RND.pick(obstacleKeys);
         const x = Phaser.Math.Between(5, this.game.config.width-5);
         const obstacle = new Obstacle(this, x, 640, 200, obstacleKey, this.obstacles);
-        //obstacle.body.setSize(20, 20);  // test set body size to match the width and height
-        //obstacle.body.setOffset(-(10), -(10)); // set the offset to center the body on the sprite
+        this.game.debug.body(obstacle, 'red', true);
+        this.game.debug.spriteBounds(obstacle, 'pink', true);
+        obstacle.body.setSize(1, .5);  // test set body size to match the width and height
+        obstacle.body.setOffset(-(.5), -(.25)); // set the offset to center the body on the sprite
         obstacle.body.onCollide = true;     // must be set for collision event to work
         obstacle.body.onWorldBounds = true;
         obstacle.setCollideWorldBounds(true);
