@@ -5,8 +5,9 @@ class Play extends Phaser.Scene {
     }
 
     create() {
+
         // place tile sprite
-        this.clouds = this.add.tileSprite(0, 0,480, 640, 'cloudBackg').setOrigin(0, 0);
+        this.clouds = this.add.tileSprite(0, 0, 480, 640, 'cloudBackg').setOrigin(0, 0);
     
         // add player character
         this.droppy = new Droppy(this, game.config.width/2, game.config.height/2, 'Droppy').setOrigin(0.5);
@@ -16,7 +17,7 @@ class Play extends Phaser.Scene {
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
         keyUP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
         keyDOWN = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
-    
+        keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
         // Initialize timer and enemy number
         this.counter = 0;
         this.startTime = this.time.now; // Resets every 1000 milliseconds
@@ -52,23 +53,23 @@ class Play extends Phaser.Scene {
     
     // handles droppy death state
     droppyDie(droppy){
+        this.gameOver = true;
+        this.deathTime = this.counter; // Store the time when Droppy died
         droppy.anims.play('death');
         droppy.on('animationcomplete',() => {
             droppy.destroy();
-            this.gameOver = true;
-        });
-        
-         console.log("Droppy died!");
+        }); 
+        console.log("Droppy died!");
     }
+
     spawnObstacle() {
         const obstacleKeys = ['CACA', 'Can', 'RottenFruit', 'shoe'];
         const obstacleKey = Phaser.Math.RND.pick(obstacleKeys);
         const x = Phaser.Math.Between(5, this.game.config.width-5);
         const obstacle = new Obstacle(this, x, 640, 200, obstacleKey, this.obstacles);
-        //this.game.debug.body(obstacle, 'red', true);
-        //this.game.debug.spriteBounds(obstacle, 'pink', true);
+ 
         obstacle.body.setSize(1, .5);  // test set body size to match the width and height
-        obstacle.body.setOffset(-(.5), -(.25)); // set the offset to center the body on the sprite
+        //obstacle.body.setOffset(-(.5), -(.25)); // set the offset to center the body on the sprite
         obstacle.body.onCollide = true;     // must be set for collision event to work
         obstacle.body.onWorldBounds = true;
         obstacle.setCollideWorldBounds(true);
@@ -82,9 +83,26 @@ class Play extends Phaser.Scene {
             this.droppy.update();
         }
         if(this.gameOver){    
+            let score = this.deathTime; // Calculate the score as the difference between deathTime and startTime
             this.obstacles.children.each(function(obstacle) {
-                obstacle.destroy();
+            obstacle.destroy();
             });
+             let textConfig = {
+                fontFamily: 'Arial',
+                fontSize: '30px',
+                color: '#843605',
+                align: 'center',
+                padding: {
+                    top: 5,
+                    bottom: 5,
+                },
+                fixedWidth: 300
+                }
+                this.add.text(game.config.width/2, game.config.height/2, 'SCORE: ' + score , textConfig).setOrigin(0.5);
+                this.add.text(game.config.width/2, game.config.height/2 + 30, 'Press (R) to restart!' , textConfig).setOrigin(0.5);
+        }
+        if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyR)){
+            this.scene.start('playScene');    
         }
         // update obstacles
         this.obstacles.children.iterate((obstacle) => {
