@@ -61,4 +61,6 @@ class Droppy extends Phaser.Physics.Arcade.Sprite {
             this.y = game.config.height;
         }
     }
+
+
 }
